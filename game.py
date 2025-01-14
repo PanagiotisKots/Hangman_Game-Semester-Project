@@ -1,6 +1,6 @@
-import random  # For selecting a random word from the list
-import os  # For clearing the screen
-from colorama import Fore, Style  # For colored text in the terminal
+import random  
+import os  
+from colorama import Fore, Style  
 
 def display_word(word, guessed_letters):
     # Create a string representing the current state of the guessed word.
@@ -8,14 +8,14 @@ def display_word(word, guessed_letters):
     return ''.join([letter if letter in guessed_letters else '_' for letter in word])
 
 def hangman():
-    # List of words to choose from
+    # List of words to choose from using the random library
     words = ["python", "programming", "hangman", "challenge", "object", "function"]
     word_to_guess = random.choice(words)  # Randomly select a word from the list
     guessed_letters = set()  # Keep track of guessed letters
-    attempts_remaining = 6  # Player starts with 6 attempts
+    attempts_remaining = 6  # Player starts with 6 attempts (going -1 after each wrong letter submission)
 
     # Clear the screen and display the game title
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear') # cls for windows like systems and clear for linux like ones
     print(Fore.CYAN + "Welcome to Hangman!" + Style.RESET_ALL)
     print("Try to guess the word, one letter at a time.")
 
@@ -28,10 +28,10 @@ def hangman():
         print(f"Attempts remaining: {Fore.YELLOW}{attempts_remaining}{Style.RESET_ALL}")
         print("Guessed letters:", Fore.GREEN + ' '.join(sorted(guessed_letters)) + Style.RESET_ALL)
 
-        # Prompt the player to guess a letter
+     
         guess = input("Enter a letter: ").lower()
 
-        # Check if the input is valid (a single alphabetical character)
+        # Check if the user input is valid 
         if len(guess) != 1 or not guess.isalpha():
             print(Fore.RED + "Please enter a single valid letter." + Style.RESET_ALL)
             input("Press Enter to continue...")
@@ -43,20 +43,20 @@ def hangman():
             input("Press Enter to continue...")
             continue
 
-        # Add the guessed letter to the set of guessed letters
+        # Add the guessed letter 
         guessed_letters.add(guess)
 
         # Check if the guessed letter is in the word
         if guess in word_to_guess:
             print(Fore.GREEN + f"Good job! '{guess}' is in the word." + Style.RESET_ALL)
-            # Check if the player has guessed all the letters in the word
+            # Check if the player has guessed all the letters in the word (plasyer wins the game)
             if all(letter in guessed_letters for letter in word_to_guess):
                 print(Fore.CYAN + "\nCongratulations! You guessed the word:" + Style.RESET_ALL, word_to_guess)
                 input("Press Enter to return to the menu...")
                 return  # Exit the game loop
         else:
             print(Fore.RED + f"Sorry, '{guess}' is not in the word." + Style.RESET_ALL)
-            attempts_remaining -= 1  # Decrement attempts remaining
+            attempts_remaining =  attempts_remaining - 1  # Decrement attempts remaining
 
         input("Press Enter to continue...")
 
